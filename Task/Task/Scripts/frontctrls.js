@@ -17,9 +17,9 @@ mApp.controller('PreviewBaseCtrl', function ($scope, ServiceConnect, ServiceByDa
             {
                 case 'SalesPerDays':
                     ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function(response) {
-                        ServiceByDays.convertToJsone(response.data);
+                        var DataforDrow = ServiceByDays.PrepareData(response.data);
+                        DrowScript(DataforDrow);
                     });
-                    //DrowScript(Pack);
                     break;
                 case 'SalesPerWeeks':
                     break;
@@ -43,10 +43,22 @@ mApp.factory('ServiceConnect', function ($http) {
     }
 });
 mApp.factory('ServiceByDays', function () {
+    var LableDate = [];
+    var Data1 = [];
+    var Data2 = [];
+    var DataArr = [];
     return {
-        convertToJsone: function (DataByDays)
+        PrepareData: function (DataByDays)
         {
-            console.log(DataByDays);
+            DataByDays.forEach(function (item, i) {
+                LableDate.push({ "label": item.Date.replace(/T00:00:00/, "") });
+                Data1.push({ "value": String(item.Price) + "$" });
+                Data2.push({ "value": String(item.CountPrice) });
+            });
+            DataArr.push(LableDate);
+            DataArr.push(Data1);
+            DataArr.push(Data2);
+            return DataArr;
         }
     }
 });
@@ -93,12 +105,12 @@ function DrowScript(DataArr) {
         ],
             "dataset": [
                 {
-                    "seriesName": "Actual Revenue",
+                    "seriesName": "Sales amount",
                     "showValues": "1",
                     data: DataArr[1]
                 },
                 {
-                    "seriesName": "Projected Revenue",
+                    "seriesName": "Number of Sales",
                     "renderAs": "line",
                     data : DataArr[2]
                 }
@@ -108,9 +120,10 @@ function DrowScript(DataArr) {
     console.log(dataSource);
 
     FusionCharts.ready(function () {
+        
         var salesAnlysisChart = new FusionCharts({
             type: 'mscombi2d',
-            renderAt: 'chart-container',
+            renderAt: "chart-container",
             width: '800',
             height: '400',
             dataFormat: 'json',
