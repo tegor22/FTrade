@@ -1,0 +1,35 @@
+﻿<script src="~/Scripts/angular.js"></script>
+<link href="~/Content/Site.css" rel="stylesheet" />
+@Scripts.Render("~/Scripts/jqPlot/jquery.js")
+@Scripts.Render("~/Scripts/jqPlot/jquery.jqplot.js")
+@Scripts.Render("~/Scripts/jqPlot/plugins/jqplot.dateAxisRenderer.min.js")
+@Scripts.Render("~/Scripts/jqPlot/plugins/jqplot.barRenderer.js")
+@Scripts.Render("~/Scripts/jqPlot/plugins/jqplot.categoryAxisRenderer.js")
+@Scripts.Render("~/Scripts/jqPlot/plugins/jqplot.pointLabels.js")
+<script src="~/Scripts/Chart/fusioncharts.js"></script>
+<script src="~/Scripts/frontctrls.js"></script>
+
+<link href="~/Scripts/jqPlot/jquery.jqplot.css" rel="stylesheet" />
+
+<div ng-app="App">
+    <div id="owndiv" ng-controller="PreviewBaseCtrl">
+        <div id="sortdiv">
+            <form name="sortForm">
+                <label for="sortSelect">Select sort: </label>
+                <select name="sortSelect" id="sortSelect" ng-model="sortdata.model">
+                    <option ng-repeat="option in sortdata.availableOpt" value="{{option.sort}}">{{option.id}}</option>
+                </select>
+            </form>
+        </div>
+        <div id="datefirst">
+            <input type="date" id="exampleInput" name="input" ng-model="FDate"
+                   placeholder="yyyy-MM-dd" min="2000-01-01" max="2020-12-31" required />
+        </div>
+        <div id="datesecond">
+            <input type="date" id="exampleInput" name="input" ng-model="SDate"
+                   placeholder="yyyy-MM-dd" min="2000-01-01" max="2020-12-31" required />
+        </div>
+        <button ng-click="GetDataSort()">Show Chart</button>
+    </div>
+    <div id="chart-container">FusionCharts will render here</div>
+</div>

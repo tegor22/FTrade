@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DatabaseTaskModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "DatabaseTask.dbo.SalesPerDays" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SalesPerDays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CountPrice" Type="int" />
+          <Property Name="SumPrice" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "DatabaseTask.dbo.SalesPerMonth" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SalesPerMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CountPrice" Type="int" />
+          <Property Name="SumPrice" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "DatabaseTask.dbo.SalesPerQuarters" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SalesPerQuarters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CountPrice" Type="int" />
+          <Property Name="SumPrice" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "DatabaseTask.dbo.SalesPerWeeks" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SalesPerWeeks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CountPrice" Type="int" />
+          <Property Name="SumPrice" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "DatabaseTask.dbo.SalesPerYears" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SalesPerYears">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CountPrice" Type="int" />
+          <Property Name="SumPrice" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="Хранилище DatabaseTaskModelContainer">
+          <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesPerDays" EntityType="Self.SalesPerDays" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SalesPerDays].[Id] AS [Id], 
+    [SalesPerDays].[CountPrice] AS [CountPrice], 
+    [SalesPerDays].[SumPrice] AS [SumPrice]
+    FROM [dbo].[SalesPerDays] AS [SalesPerDays]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SalesPerMonth" EntityType="Self.SalesPerMonth" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SalesPerMonth].[Id] AS [Id], 
+    [SalesPerMonth].[CountPrice] AS [CountPrice], 
+    [SalesPerMonth].[SumPrice] AS [SumPrice]
+    FROM [dbo].[SalesPerMonth] AS [SalesPerMonth]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SalesPerQuarters" EntityType="Self.SalesPerQuarters" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SalesPerQuarters].[Id] AS [Id], 
+    [SalesPerQuarters].[CountPrice] AS [CountPrice], 
+    [SalesPerQuarters].[SumPrice] AS [SumPrice]
+    FROM [dbo].[SalesPerQuarters] AS [SalesPerQuarters]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SalesPerWeeks" EntityType="Self.SalesPerWeeks" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SalesPerWeeks].[Id] AS [Id], 
+    [SalesPerWeeks].[CountPrice] AS [CountPrice], 
+    [SalesPerWeeks].[SumPrice] AS [SumPrice]
+    FROM [dbo].[SalesPerWeeks] AS [SalesPerWeeks]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SalesPerYears" EntityType="Self.SalesPerYears" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SalesPerYears].[Id] AS [Id], 
+    [SalesPerYears].[CountPrice] AS [CountPrice], 
+    [SalesPerYears].[SumPrice] AS [SumPrice]
+    FROM [dbo].[SalesPerYears] AS [SalesPerYears]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseTaskModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="SalesPerDays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountPrice" Type="Int32" />
+          <Property Name="SumPrice" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SalesPerMonth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountPrice" Type="Int32" />
+          <Property Name="SumPrice" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SalesPerQuarters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountPrice" Type="Int32" />
+          <Property Name="SumPrice" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SalesPerWeeks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountPrice" Type="Int32" />
+          <Property Name="SumPrice" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SalesPerYears">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountPrice" Type="Int32" />
+          <Property Name="SumPrice" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="DatabaseTaskEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Sales" EntityType="Self.Sales" />
+          <EntitySet Name="SalesPerDays" EntityType="Self.SalesPerDays" />
+          <EntitySet Name="SalesPerMonth" EntityType="Self.SalesPerMonth" />
+          <EntitySet Name="SalesPerQuarters" EntityType="Self.SalesPerQuarters" />
+          <EntitySet Name="SalesPerWeeks" EntityType="Self.SalesPerWeeks" />
+          <EntitySet Name="SalesPerYears" EntityType="Self.SalesPerYears" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DatabaseTaskModelContainer" CdmEntityContainer="DatabaseTaskEntities">
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="DatabaseTaskModel.Sales">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPerDays">
+            <EntityTypeMapping TypeName="DatabaseTaskModel.SalesPerDays">
+              <MappingFragment StoreEntitySet="SalesPerDays">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountPrice" ColumnName="CountPrice" />
+                <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPerMonth">
+            <EntityTypeMapping TypeName="DatabaseTaskModel.SalesPerMonth">
+              <MappingFragment StoreEntitySet="SalesPerMonth">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountPrice" ColumnName="CountPrice" />
+                <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPerQuarters">
+            <EntityTypeMapping TypeName="DatabaseTaskModel.SalesPerQuarters">
+              <MappingFragment StoreEntitySet="SalesPerQuarters">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountPrice" ColumnName="CountPrice" />
+                <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPerWeeks">
+            <EntityTypeMapping TypeName="DatabaseTaskModel.SalesPerWeeks">
+              <MappingFragment StoreEntitySet="SalesPerWeeks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountPrice" ColumnName="CountPrice" />
+                <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPerYears">
+            <EntityTypeMapping TypeName="DatabaseTaskModel.SalesPerYears">
+              <MappingFragment StoreEntitySet="SalesPerYears">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountPrice" ColumnName="CountPrice" />
+                <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
