@@ -1,5 +1,5 @@
 ﻿var mApp = angular.module("App", []);
-mApp.controller('PreviewBaseCtrl', function ($scope, ServiceByDays) {
+mApp.controller('PreviewBaseCtrl', function ($scope, ServiceConnect, ServiceByDays) {
         $scope.sortdata = {
             model: null,
             availableOpt: [
@@ -10,16 +10,16 @@ mApp.controller('PreviewBaseCtrl', function ($scope, ServiceByDays) {
                 { id: 'Quarter', sort: 'SalesPerQuarters' }
             ]
     };
-    
         $scope.GetDataSort = function () {
             var FirstDate = $scope.FDate.getFullYear() + '-' + ($scope.FDate.getMonth() + 1) + '-' + $scope.FDate.getDate();
             var SecondDate = $scope.SDate.getFullYear() + '-' + ($scope.SDate.getMonth() + 1) + '-' + $scope.SDate.getDate();
             switch ($scope.sortdata.model)
             {
                 case 'SalesPerDays':
-                    var Pack = null;
-                    Pack = ServiceByDays.connect($scope.sortdata.model, FirstDate, SecondDate);
-                    DrowScript(Pack);
+                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function(response) {
+                        ServiceByDays.convertToJsone(response.data);
+                    });
+                    //DrowScript(Pack);
                     break;
                 case 'SalesPerWeeks':
                     break;
@@ -32,24 +32,21 @@ mApp.controller('PreviewBaseCtrl', function ($scope, ServiceByDays) {
             }
         }
 });
-mApp.factory('ServiceByDays', function ($http) {
-    var category = [];
-    var data1 = [];
-    var data2 = [];
+mApp.factory('ServiceConnect', function ($http) {
     return {
-        connect: function (ctrl, startdate, enddate) {
-            $http({
+        get: function (ctrl, startdate, enddate) {
+            return $http({
                 method: 'GET',
                 url: '/api/' + ctrl + '/' + startdate + '/' + enddate
-            }).then(function successCallback(response) {
-                response.data.forEach(function (item, i) {
-                    category.push({ "label": item.Date.replace(/T00:00:00/, "") });
-                    data1.push({ "value": String(item.Price) });
-                    data2.push({"value" : String(item.CountPrice)});
-                });
-                });
-            var Pack = [category, data1, data2];
-            return Pack;
+            });
+        }
+    }
+});
+mApp.factory('ServiceByDays', function () {
+    return {
+        convertToJsone: function (DataByDays)
+        {
+            console.log(DataByDays);
         }
     }
 });
