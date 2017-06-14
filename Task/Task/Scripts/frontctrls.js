@@ -1,5 +1,5 @@
 ﻿var mApp = angular.module("App", []);
-mApp.controller('PreviewBaseCtrl', function ($scope, ServiceConnect, ServiceByDays) {
+mApp.controller('PreviewBaseCtrl', function ($scope, ServiceConnect, ServiceByDays, ServiceByWeeks, ServiceByMonth, ServiceByYears, ServiceByQuarters) {
         $scope.sortdata = {
             model: null,
             availableOpt: [
@@ -11,24 +11,39 @@ mApp.controller('PreviewBaseCtrl', function ($scope, ServiceConnect, ServiceByDa
             ]
     };
         $scope.GetDataSort = function () {
-            console.log("method GetDataSort");
+            
             var FirstDate = $scope.FDate.getFullYear() + '-' + ($scope.FDate.getMonth() + 1) + '-' + $scope.FDate.getDate();
             var SecondDate = $scope.SDate.getFullYear() + '-' + ($scope.SDate.getMonth() + 1) + '-' + $scope.SDate.getDate();
-            switch ($scope.sortdata.model)
-            {
+            switch ($scope.sortdata.model) {
                 case 'SalesPerDays':
-                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function(response) {
+                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function (response) {
                         var DataforDrow = ServiceByDays.PrepareData(response.data);
                         DrowScript(DataforDrow);
                     });
                     break;
                 case 'SalesPerWeeks':
+                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function (response) {
+                        var DataforDrow = ServiceByWeeks.PrepareData(response.data);
+                        DrowScript(DataforDrow);
+                    });
                     break;
                 case 'SalesPerMonth':
+                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function (response) {
+                        var DataforDrow = ServiceByMonth.PrepareData(response.data);
+                        DrowScript(DataforDrow);
+                    });
                     break;
                 case 'SalesPerYears':
+                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function (response) {
+                        var DataforDrow = ServiceByYears.PrepareData(response.data);
+                        DrowScript(DataforDrow);
+                    });
                     break;
                 case 'SalesPerQuarters':
+                    ServiceConnect.get($scope.sortdata.model, FirstDate, SecondDate).then(function (response) {
+                        var DataforDrow = ServiceByQuarters.PrepareData(response.data);
+                        DrowScript(DataforDrow);
+                    });
                     break;
             }
         }
@@ -63,15 +78,113 @@ mApp.factory('ServiceByDays', function () {
             DataArr.push(LableDate);
             DataArr.push(Data1);
             DataArr.push(Data2);
-            console.log(DataArr, LableDate, Data1, Data2);
             return DataArr;
         }
     }
 });
+mApp.factory('ServiceByWeeks', function () {
+    var LableDate = [];
+    var Data1 = [];
+    var Data2 = [];
+    var DataArr = [];
+    return {
+        PrepareData: function (DataByDays)
+        {
+            DataArr = new Array();
+            LableDate = new Array();
+            Data1 = new Array();
+            Data2 = new Array();
+            DataByDays.forEach(function (item, i) {
+                LableDate.push({ "label": String(GetDateByNumberWeek(item.NumberWeek, item.NumberYear)).replace(/\s\d\d:\d\d:\d\d\s.*/, "") });
+                Data1.push({ "value": String(item.Price) });
+                Data2.push({ "value": String(item.CountPrice) });
+            });
+            DataArr.push(LableDate);
+            DataArr.push(Data1);
+            DataArr.push(Data2);
+            return DataArr;
+        }
+    }
+});
+mApp.factory('ServiceByMonth', function () {
+    var LableDate = [];
+    var Data1 = [];
+    var Data2 = [];
+    var DataArr = [];
+    return {
+        PrepareData: function (DataByDays) {
+            DataArr = new Array();
+            LableDate = new Array();
+            Data1 = new Array();
+            Data2 = new Array();
+            DataByDays.forEach(function (item, i) {
+                LableDate.push({ "label": String(item.NumberYear + "/" + item.NumberMonth)});
+                Data1.push({ "value": String(item.Price) });
+                Data2.push({ "value": String(item.CountPrice) });
+            });
+            DataArr.push(LableDate);
+            DataArr.push(Data1);
+            DataArr.push(Data2);
+            return DataArr;
+        }
+    }
+});
+mApp.factory('ServiceByYears', function () {
+    var LableDate = [];
+    var Data1 = [];
+    var Data2 = [];
+    var DataArr = [];
+    return {
+        PrepareData: function (DataByDays) {
+            DataArr = new Array();
+            LableDate = new Array();
+            Data1 = new Array();
+            Data2 = new Array();
+            DataByDays.forEach(function (item, i) {
+                LableDate.push({ "label": String(item.NumberYear) });
+                Data1.push({ "value": String(item.Price) });
+                Data2.push({ "value": String(item.CountPrice) });
+            });
+            DataArr.push(LableDate);
+            DataArr.push(Data1);
+            DataArr.push(Data2);
+            return DataArr;
+        }
+    }
+});
+mApp.factory('ServiceByQuarters', function () {
+    var LableDate = [];
+    var Data1 = [];
+    var Data2 = [];
+    var DataArr = [];
+    return {
+        PrepareData: function (DataByDays) {
+            DataArr = new Array();
+            LableDate = new Array();
+            Data1 = new Array();
+            Data2 = new Array();
+            DataByDays.forEach(function (item, i) {
+                LableDate.push({ "label": String("Q" + item.NumberQuarter + "/" + item.NumberYear) });
+                Data1.push({ "value": String(item.Price) });
+                Data2.push({ "value": String(item.CountPrice) });
+            });
+            DataArr.push(LableDate);
+            DataArr.push(Data1);
+            DataArr.push(Data2);
+            return DataArr;
+        }
+    }
+});
+function GetDateByNumberWeek(numberWeek, numberYear)
+{
+    for (var a = 1; ; a++) if ((new Date(numberYear, 0, a)).getDay() == 1) break;
+    a += (numberWeek - 1) * 7;
+    return new Date(numberYear, 0, a)
+}
 function DrowScript(DataArr) {
-    console.log("method DrowScript");
+    
     FusionCharts.ready(function () {
-        console.log("FusionCharts.ready(function ())");
+       
         var dataSource = {
             "chart": {
                 "caption": "",
